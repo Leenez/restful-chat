@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 let Schema = mongoose.Schema({
+    date:Date,
     user:{type:String,index:true},
-    message:String
+    message:String,
 })
 
-module.exports = mongoose.model("SentMessage",Schema);
+module.exports = mongoose.model("Message",Schema);
