@@ -3,22 +3,28 @@ const sessionModel = require("../models/session");
 const userLastSeenModel = require("../models/userlastseen");
 const messageModel = require("../models/message");
 
-const setUserLastSeen = async (user) => {
+const updateUserLastSeen = async (user) => {
     const currentDate = Date.now()
-    userLastSeenModel.updateOne({username:user},{lastseen:currentDate})
-    .then(() => {
+    try {
+        let lastSeen = await userLastSeenModel.updateOne({username:user},{lastseen:currentDate})
         console.log("userLastSeen updated ",user,currentDate) // DEV
-    }).catch((err) => {
+    } catch(err) {
         console.log("userLastSeen error ",err) // DEV
-    })
+    }
 }
 
 const getUserLastSeen = async (user) => {
-    const username = userLastSeen.findOne({"username":user}).then(function() {
-        console.log("userLastSeen", username)
-    }).catch((err) => {
-        console.log("userLastSeen",err)
-    })
+    try {
+        let lastSeen = await userLastSeenModel.findOne({"username":user})
+        console.log("userLastSeen ", username) // DEV
+        return lastSeen;
+    } catch(err) {
+        console.log("userLastSeen",err) // DEV
+    }
+}
+
+const setUserLastSeen = async (user) => {
+    return ""
 }
 
 const getChatMessages = () => {

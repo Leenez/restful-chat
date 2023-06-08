@@ -1,19 +1,32 @@
 const express = require("express");
-const accountsRoute = require("./routes/accountsroute");
 const chatRoute = require("./routes/chatroute");
-const dbAccess = require("./functions/dbaccess");
-const serverFunctions = require("./functions/serverfunctions");
+const accountsRoute = require("./routes/accountsroute");
 const config = require("../config");
+const serverFunctions = require("./functions/serverfunctions");
+const dbAccess = require("./functions/dbaccess");
 
-dbAccess.openMongooseConnection();
+const startServer = async () => {
+    await dbAccess.openMongooseConnection();
 
-let app = express();
-app.use(express.json);
+    let app = express();
+    app.use(express.json());
+    
+    let port = config.server_port 
+    
+    app.use("/api",serverFunctions.isUserLogged,chatRoute);
+    app.use("",accountsRoute)
 
-app.use("/", accountsRoute);
+    app.listen(port);
+    console.log("Running in port",port);
+}
 
-app.use("/api",serverFunctions.isUserLogged,chatRoute);
+startServer()
 
-app.listen(config.server_port);
 
-console.log("Listening ",config.server_port)
+
+
+
+
+
+
+

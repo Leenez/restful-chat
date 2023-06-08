@@ -1,13 +1,13 @@
 const express = require("express")
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
 const userModel = require("../models/user");
 const sessionModel = require("../models/session");
+const serverConfig = require("../../config");
+const serverFunctions = require("../functions/serverfunctions")
 
 let router = express.Router()
 
 router.post("/register", function(req,res) {
-    console.log(req.body)
     if(!req.body) {
         return res.status(400).json({"Message":"Bad Request"});
     }
@@ -59,11 +59,11 @@ router.post("/login",function(req,res) {
             if(!success) {
                 return res.status(401).json({"Message":"Unauthorized"});
             }
-            let token = createToken();
+            let token = serverFunctions.createToken();
             let now = Date.now();
             let session = new sessionModel({
                 "user":req.body.username,
-                "ttl":now+time_to_live_diff,
+                "ttl":now+serverConfig.time_to_live_diff,
                 "token":token
             })
             session.save().then(function(session){
