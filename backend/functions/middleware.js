@@ -1,39 +1,5 @@
 const crypto = require("crypto");
 const sessionModel = require("../models/session");
-const userLastSeenModel = require("../models/userlastseen");
-const messageModel = require("../models/message");
-
-const updateUserLastSeen = async (user) => {
-    const currentDate = Date.now()
-    try {
-        let lastSeen = await userLastSeenModel.updateOne({username:user},{lastseen:currentDate})
-        console.log("userLastSeen updated ",user,currentDate) // DEV
-    } catch(err) {
-        console.log("userLastSeen error ",err) // DEV
-    }
-}
-
-const getUserLastSeen = async (user) => {
-    try {
-        let lastSeen = await userLastSeenModel.findOne({"username":user})
-        console.log("userLastSeen ", username) // DEV
-        return lastSeen;
-    } catch(err) {
-        console.log("userLastSeen",err) // DEV
-    }
-}
-
-const setUserLastSeen = async (user) => {
-    return ""
-}
-
-const getChatMessages = () => {
-    return ""
-}
-
-const recordMessage = () => {
-    return ""
-}
 
 const createToken = () => {
     let token = crypto.randomBytes(64);
@@ -73,4 +39,4 @@ const isUserLogged = (req,res,next) => {
     });
 }
 
-module.exports = {createToken, isUserLogged, getUserLastSeen, recordMessage, getChatMessages}
+module.exports = {createToken, isUserLogged}

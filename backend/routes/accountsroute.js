@@ -1,9 +1,10 @@
 const express = require("express")
 const bcrypt = require("bcrypt");
 const userModel = require("../models/user");
+const userLastSeenModel = require("../models/userlastseen");
 const sessionModel = require("../models/session");
 const serverConfig = require("../../config");
-const serverFunctions = require("../functions/serverfunctions")
+const serverFunctions = require("../functions/middleware")
 
 let router = express.Router()
 
@@ -17,7 +18,7 @@ router.post("/register", function(req,res) {
     if(req.body.username.length < 4 || req.body.password.length < 8) {
         return res.status(400).json({"Message":"Bad Request"});
     }
-    bcrypt.hash(req.body.password,14,function(err,hash) {
+    bcrypt.hash(req.body.password,14, (err,hash) => {
         if(err) {
             return res.status(500).json({"Message":"Internal server error"});
         }
@@ -25,7 +26,18 @@ router.post("/register", function(req,res) {
             "username":req.body.username,
             "password":hash
         })
-        user.save().then(function(user) {
+         
+        try {
+            const currentDate = Date.now(); 
+            let lastSeen = new userLastSeenModel({
+               "user":req.body.username,
+               "lastseen":currentDate
+            })
+            lastSeen.save()
+        } catch(err) {
+            return res.status(500).json({"Message":"Internal server error"});
+        }
+        user.save().then((user) => {
             return res.status(200).json({"Message":"Register success"});
         }).catch(function(err) {
             if(err.code === 11000) {
@@ -37,7 +49,7 @@ router.post("/register", function(req,res) {
     })
 })
 
-router.post("/login",function(req,res) {
+router.post("/login", (req,res) => {
     if(!req.body) {
         return res.status(400).json({"Message":"Bad Request"});
     }

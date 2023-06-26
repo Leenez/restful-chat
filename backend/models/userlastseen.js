@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 let Schema = mongoose.Schema({
-    username:{type:String,unique:true},
+    user:{type:String,unique:true},
     lastseen:Date
 })
 
