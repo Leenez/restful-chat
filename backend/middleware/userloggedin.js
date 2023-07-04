@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const sessionModel = require("../models/session");
+const config = require("../../config")
 
 const createToken = () => {
     let token = crypto.randomBytes(64);
@@ -23,7 +24,7 @@ const isUserLogged = (req,res,next) => {
                 return res.status(403).json({"Message":"Forbidden"});
             })
         } else {
-            session.ttl = now + time_to_live_diff;
+            session.ttl = now + config.time_to_live_diff;
             req.session = {};
             req.session.user = session.user;
             session.save().then(function() {

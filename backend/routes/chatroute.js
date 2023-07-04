@@ -7,10 +7,10 @@ let router = express.Router()
 router.get("/msgs",async (req,res) => {
     try {
         const currentDate = Date.now();
-        let lastSeen = await userLastSeenModel.findOne({"user":req.body.user});
+        let lastSeen = await userLastSeenModel.findOne({ "user" : req.body.user });
         lastSeen = lastSeen.lastseen;
-        await userLastSeenModel.updateOne({ "user": req.body.user}, { "lastseen": currentDate});
-        const messages = await messageModel.find(); // messages greater than equal to lastSeen
+        await userLastSeenModel.updateOne({ "user": req.body.user }, { "lastseen": currentDate });
+        const messages = await messageModel.find({ "date" : { $gte : lastSeen } });
         return res.status(200).json(messages);
     } catch(err) {
         console.log(err)
@@ -29,6 +29,7 @@ router.post("/msg", (req,res) => {
         message.save()
         return res.status(200).json({"Message":"Success"});
     } catch(err) {
+        console.log(err);
         return res.status(500).json({"Message":"Internal server error"});
     }
 })

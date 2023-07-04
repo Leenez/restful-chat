@@ -4,7 +4,7 @@ const userModel = require("../models/user");
 const userLastSeenModel = require("../models/userlastseen");
 const sessionModel = require("../models/session");
 const serverConfig = require("../../config");
-const serverFunctions = require("../functions/middleware")
+const middleWare = require("../middleware/userloggedin")
 
 let router = express.Router()
 
@@ -71,7 +71,7 @@ router.post("/login", (req,res) => {
             if(!success) {
                 return res.status(401).json({"Message":"Unauthorized"});
             }
-            let token = serverFunctions.createToken();
+            let token = middleWare.createToken();
             let now = Date.now();
             let session = new sessionModel({
                 "user":req.body.username,
