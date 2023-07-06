@@ -26,18 +26,13 @@ router.post("/register", function(req,res) {
             "username":req.body.username,
             "password":hash
         })
-         
-        try {
+        user.save().then((user) => {
             const currentDate = Date.now(); 
             let lastSeen = new userLastSeenModel({
                "user":req.body.username,
                "lastseen":currentDate
             })
             lastSeen.save()
-        } catch(err) {
-            return res.status(500).json({"Message":"Internal server error"});
-        }
-        user.save().then((user) => {
             return res.status(200).json({"Message":"Register success"});
         }).catch(function(err) {
             if(err.code === 11000) {

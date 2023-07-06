@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react'
+import '../styles/ChatMessages.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMsgs } from '../redux/chatSlice'
 
@@ -6,27 +7,42 @@ const ChatMessages = (props) => {
 
     const chatMessages = useSelector(state => state.chatMessages)
     const token = useSelector(state => state.token)
+    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
     
     useEffect(() => {
+
+        const request = 
+            {
+                "method":"POST",
+                "headers":{
+                    "Content-type":"application/json",
+                    "token":token
+                },
+                "body":JSON.stringify({
+                    "user":user
+                    })
+            }
+
         const interval = setInterval(() => {
-            dispatch(getMsgs(token))
-        }, 2000)
+            dispatch(getMsgs(request))
+        }, 5000)
         return () => clearInterval(interval);
     },[])
 
-    //const mockList = [{time: "12.2.2222", sender: "sender", msg: "lorem lorem"}, {time: "13.3.3333", sender: "sender2", msg: "lorem2 lorem2"}] 
     const tableItems = chatMessages.map((item, index) => 
                         (<tr key={index}>
-                            <td >{item.time}</td>
-                            <td >{item.sender}</td>
-                            <td >{item.msg}</td>
+                            <td className='time'>{item.date}</td>
+                            <td className='user'>{item.user}</td>
+                            <td className='msg'>{item.message}</td>
                         </tr>))
 
     return (
-        <table>
-            {tableItems}
-        </table>
+        <div className='message-window'>
+            <table className='message-table'>
+                {tableItems}
+            </table>
+        </div>
     )
 }
 

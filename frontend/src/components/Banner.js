@@ -1,7 +1,7 @@
 import React from 'react'
+import '../styles/Banner.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../redux/chatSlice'
-import config from '../../../config'
 
 const Banner = (props) => {
 
@@ -11,19 +11,34 @@ const Banner = (props) => {
 
     const dispatch = useDispatch()
 
-    if (!user) {
+    const onClick = (event) => {
+        event.preventDefault()
+        const request = 
+            {
+                "method":"POST",
+                "headers":{
+                    "Content-type":"application/json",
+                    "token":token
+                },
+            }
+        dispatch(logout(request))
+        }
+    
+
+    if (user === "" || token === "") {
         return (
-            <div>
-                <div><p>{config.heading}</p></div>
+            <div className='banner-account'>
+                <div><p>Restful Chat</p></div>
                 <div><p>{info}</p></div>
             </div>
     )
     } else {
         return (
-            <div>
-                <div><p>{config.heading}</p></div>
+            <div className='banner-chat'>
+                <div><p>Restful Chat</p></div>
+                <div><p>Logged In As: {user}</p></div>
                 <div><p>{info}</p></div>
-                <div><button onClick={dispatch(logout(token))}>Logout</button></div>
+                <div><button className='banner-logout-button' onClick={onClick}>Logout</button></div>
             </div>
         )
     }

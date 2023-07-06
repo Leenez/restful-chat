@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
+import '../styles/AccountForm.scss'
 import { useDispatch } from 'react-redux'
-import { register, login } from '../redux/chatSlice'
+import { register, login, setUserName, setInfo } from '../redux/chatSlice'
 
 const AccountForm = (props) => {
 
@@ -20,28 +21,54 @@ const AccountForm = (props) => {
 		})
 	}
 
+	const validateUser = (user) => {
+		if(user.username.length < 4) {
+			dispatch(setInfo("Username must be at least 4 characters long"))
+			return false
+		}
+		if(user.password.length < 8) {
+			dispatch(setInfo("Password must be at least 8 characters long"))
+			return false
+		}
+		return true
+	}
+
     const onSubmit = (event) => {
 		event.preventDefault();
-		// CREATE CHECK FOR USER AND PASSWORD
+		const request = 
+		{
+			"method":"POST",
+			"headers":{
+				"Content-type":"application/json",
+			},
+			"body":JSON.stringify({"username":user.username, "password":user.password})
+		}
 		
 		if(event.target.name === "register") {
-			dispatch(register(user));
+			if(validateUser(user)) {
+				dispatch(register(request));
+			}
 		}
         if(event.target.name === "login") {
-			dispatch(login(user));
+			if(validateUser(user)){
+				dispatch(setUserName(user))
+				dispatch(login(request));		
+			}
 		}
 	}
 
     return (
-        <form>
-			<label htmlFor="username">Username</label>
-			<input type="text" name="username" id="username" onChange={onChange} value={user.username}/>
+        <form className='account-form'>
+			<h1>Welcome</h1>
+			<label className='account-form-label' htmlFor="username">Username</label><br/>
+			<input type="text" name="username" id="username" onChange={onChange} value={user.username}/><br/>
 			
-            <label htmlFor="password">Password</label>
-			<input type="password" name="password" id="password" onChange={onChange} value={user.password}/>
-				
-            <button name="register" onClick={onSubmit}>Register</button>
-			<button name="login" onClick={onSubmit}>Login</button>
+            <label className='account-form-label' htmlFor="password">Password</label><br/>
+			<input type="password" name="password" id="password" onChange={onChange} value={user.password}/><br/>
+			<div className='button-container'>
+			<button className='login-button account-form-button' name="login" onClick={onSubmit}>Login</button>
+            <button className='register-button account-form-button' name="register" onClick={onSubmit}>Register</button>	
+			</div>
 		</form>
     )
 }

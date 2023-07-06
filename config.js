@@ -5,7 +5,6 @@ const config = {
     database:"chatdatabase",
     time_to_live_diff:3600000,
     server_port:3001,
-    heading:"Restful Chat"
 }
 
 module.exports = config

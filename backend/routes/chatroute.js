@@ -4,7 +4,7 @@ const messageModel = require("../models/message")
 
 let router = express.Router()
 
-router.get("/msgs",async (req,res) => {
+router.post("/msgs",async (req,res) => {
     try {
         const currentDate = Date.now();
         let lastSeen = await userLastSeenModel.findOne({ "user" : req.body.user });

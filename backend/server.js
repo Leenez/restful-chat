@@ -11,7 +11,7 @@ const startServer = async () => {
     let app = express();
     app.use(express.json());
     
-    let port = config.server_port 
+    let port = process.env.PORT || config.server_port 
     
     app.use("",accountsRoute);
     app.use("/api",middleWare.isUserLogged,chatRoute);

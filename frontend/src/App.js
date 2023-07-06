@@ -1,16 +1,22 @@
 import React from "react"
-import {AccountForm} from "./components/AccountForm"
-import {ChatMessages} from "./components/ChatMessages"
-import {MessageForm} from "./components/MessageForm"
-import {Banner} from "./components/Banner"
+import './styles/App.sass';
+import { useSelector } from 'react-redux'
+import AccountForm from "./components/AccountForm"
+import ChatMessages from "./components/ChatMessages"
+import MessageForm from "./components/MessageForm"
+import Banner from "./components/Banner"
+import FireFly from "./components/FireFly"
 
 function App() {
 
-  if (state.token === "") {
+  const token = useSelector(state => state.token)
+
+  if (token === "") {
     return (
       <div className="App">
         <Banner />
         <AccountForm />
+        <FireFly />
       </div>
     );
   } else {
@@ -19,6 +25,7 @@ function App() {
         <Banner />
         <ChatMessages />
         <MessageForm />
+        <FireFly />
       </div>
   );
   }
