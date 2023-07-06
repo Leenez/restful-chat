@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 const NO_INFO = ""
+const LOADING = "Loading ..."
 
 const showInfo = (state, action) => {
     if(action.payload.Message) {
@@ -59,11 +60,17 @@ const chatSlice = createSlice({
     },
     extraReducers: (builder) => {
         // REGISTER
+        builder.addCase(register.pending, state => {
+            state.info = LOADING
+        })
         builder.addCase(register.fulfilled, (state, action) =>{
             showInfo(state, action)
         })
 
         // LOGIN
+        builder.addCase(login.pending, state => {
+            state.info = LOADING
+        })
         builder.addCase(login.fulfilled, (state, action) =>{
             showInfo(state, action)
             if(action.payload.token) {
@@ -73,6 +80,9 @@ const chatSlice = createSlice({
         })
 
         // LOGOUT
+        builder.addCase(logout.pending, state => {
+            state.info = LOADING
+        })
         builder.addCase(logout.fulfilled, (state, action) => {
             showInfo(state, action)
             state.chatMessages = []
