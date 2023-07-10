@@ -27,10 +27,8 @@ router.post("/register", function(req,res) {
             "password":hash
         })
         user.save().then((user) => {
-            const currentDate = Date.now(); 
             let lastSeen = new userLastSeenModel({
                "user":req.body.username,
-               "lastseen":currentDate
             })
             lastSeen.save()
             return res.status(200).json({"Message":"Register success"});

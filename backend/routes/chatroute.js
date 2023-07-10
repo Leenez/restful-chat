@@ -9,9 +9,14 @@ router.post("/msgs",async (req,res) => {
     try {
         let lastSeen = await userLastSeenModel.findOne({ "user" : req.body.user });
         lastSeen = lastSeen.lastseen;
-        const messages = await messageModel.find({ "date" : { $gt : lastSeen } }).sort( { date: -1 });
+        const messages = await messageModel.find({ "date" : { $gt : lastSeen } }).sort({date: "ascending"});
         if(messages.length > 0) {
-            await userLastSeenModel.updateOne({ "user": req.body.user }, { "lastseen": messages[0].date });
+            await userLastSeenModel.findOneAndRemove({ "user" : req.body.user });
+            const lastSeenNew = new userLastSeenModel({
+                "user":req.body.user,
+                "lastseen":messages[messages.length - 1].date
+             })
+            await lastSeenNew.save()
         }
         return res.status(200).json(messages);
     } catch(err) {
@@ -31,9 +36,7 @@ router.post("/msg", async (req,res) => {
         } else {
             tmpMessage = req.body.message
         }
-        const currentDate = Date.now();
         const message = new messageModel({
-           "date":currentDate,
            "user":req.body.user,
            "message":tmpMessage
         })

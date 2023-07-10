@@ -37,7 +37,7 @@ h1 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin-top:1rem;
-    grid-gap: 0.5rerm;
+    justify-items: center;
 }
 
 .account-form-button {
@@ -47,6 +47,10 @@ h1 {
     width: 7rem;
     height: 2rem;
     font-size: 1rem;
+}
+
+.account-form-button:active {
+    transform: translateY(0.5rem);
 }
 
 

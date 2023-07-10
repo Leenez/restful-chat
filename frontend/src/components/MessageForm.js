@@ -62,6 +62,7 @@ const MessageForm = (props) => {
                 }
             if (msg.message.length > 0) {
                 dispatch(sendMsg(request))
+                setMsg({message:""})
             } else {
                 dispatch(setInfo(NO_EMPTY_MSGS))
             }

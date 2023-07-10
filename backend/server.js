@@ -1,7 +1,6 @@
 const express = require("express");
 const chatRoute = require("./routes/chatroute");
 const accountsRoute = require("./routes/accountsroute");
-const config = require("../config");
 const middleWare = require("./middleware/userloggedin");
 const dbAccess = require("./middleware/dbaccess");
 
@@ -11,7 +10,7 @@ const startServer = async () => {
     let app = express();
     app.use(express.json());
     
-    let port = process.env.PORT || config.server_port 
+    let port = process.env.PORT || 3001
     
     app.use("",accountsRoute);
     app.use("/api",middleWare.isUserLogged,chatRoute);

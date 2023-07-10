@@ -26,7 +26,7 @@ const ChatMessages = (props) => {
 
         const interval = setInterval(() => {
             dispatch(getMsgs(request))
-        }, 10000)
+        }, 5000)
         return () => clearInterval(interval);
     },[])
 

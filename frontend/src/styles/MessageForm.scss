@@ -37,3 +37,11 @@
     height: 2rem;
     font-size: 1rem;
 }
+
+.green-button:active {
+    transform: translateY(0.5rem);
+}
+
+.ai-assist-off-button:active {
+    transform: translateY(0.5rem);
+}
