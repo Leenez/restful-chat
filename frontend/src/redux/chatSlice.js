@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 const NO_INFO = ""
 const LOADING = "Loading ..."
+const AI_ASSIST_ON = "AI will now respond for you"
+const AI_ASSIST_OFF = "AI assist disabled"
 
 const showInfo = (state, action) => {
     if(action.payload.Message) {
@@ -36,12 +38,13 @@ export const sendMsg = createAsyncThunk("sendmsg", async (request) => {
 
 export const getMsgs = createAsyncThunk("getmsgs", async (request) => {
     const response = await fetch("/api/msgs", request)
-    const messages = response.json()
+    const messages = await response.json()
 	return messages;
 })
 
 const initialState = {
     info:"",
+    aiAssist:false,
     chatMessages:[],
 	token:"",
 	user:""
@@ -56,6 +59,10 @@ const chatSlice = createSlice({
         },
         setInfo: (state, action) => {
             state.info = action.payload
+        },
+        toggleAiAssist: (state) => {
+            (state.aiAssist === false) ? state.aiAssist = true : state.aiAssist = false;
+            (state.aiAssist === true) ? state.info = AI_ASSIST_ON : state.info = AI_ASSIST_OFF
         }
     },
     extraReducers: (builder) => {
@@ -91,7 +98,7 @@ const chatSlice = createSlice({
         })
 
         // SEND MESSAGE
-        builder.addCase(sendMsg.fulfilled, state =>{
+        builder.addCase(sendMsg.fulfilled, state => {
             state.info = NO_INFO
         })
 
@@ -106,4 +113,4 @@ const chatSlice = createSlice({
 })
 
 export default chatSlice.reducer;
-export const { setUserName, setInfo } = chatSlice.actions
+export const { setUserName, setInfo, toggleAiAssist } = chatSlice.actions

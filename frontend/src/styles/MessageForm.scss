@@ -1,41 +1,39 @@
-.message-form {
-    text-align: center;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top:20px;
+.grid-container {
+    display: grid;
+    align-items: center;
+    grid-gap:0.5rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 1rem;
+}
+
+.send-container {
+    justify-self: end;
+}
+
+.ai-container {
+    justify-self: start;
 }
 
 .message-form-input {
-    width: 500px;
-    border-radius: 8px;;
+    width: 40rem;
+    font-size: 2rem;
+    height: 2rem;
 }
 
-th, td {
-    padding: 10px;
-    text-align: left;
-    color: white;
-    background-color: black;
-  }
-
-.time {
-    width: 100px;
-    font-size: large;
-}
-.user {
-    width: 100px;
-    font-size: large;
-}
-
-.msg {
-    width: 300px;
-    font-size: large;
-}
-
-
-.message-form-button {
+.green-button {
     background-color: lightgreen;
     border:none;
-    border-radius: 8px;
-    width: 100px;
+    border-radius: 1rem;
+    width: 7rem;
+    height: 2rem;
+    font-size: 1rem;
+}
+
+.ai-assist-off-button {
+    background-color: grey;
+    border:none;
+    border-radius: 1rem;
+    width: 7rem;
+    height: 2rem;
+    font-size: 1rem;
 }

@@ -1,7 +1,7 @@
 p {
     color:white;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 2rem;
 }
 
 .banner-account {
@@ -11,10 +11,12 @@ p {
     justify-items: center;
     align-content: space-evenly;
     align-items: center;
-    grid-gap: 2px;
+    grid-gap: 0.13rem;
     color:white;
-    border-bottom: 1px solid white;
+    border-bottom: 0.1rem solid white;
     margin-bottom: 10%;
+    height: 7rem;
+    background-color: black;
 }
 
 .banner-chat {
@@ -26,13 +28,19 @@ p {
     align-items: center;
     grid-gap: 2px;
     color:white;
-    border-bottom: 1px solid white;
+    border-bottom: 0.13rem solid white;
     margin-bottom: 10%;
+    background-color: black;
+    height: 7rem;
+    position: sticky;
+    top: 0;
 }
 
 .banner-logout-button {
     background-color: lightgrey;
     border:none;
-    border-radius: 8px;
-    width: 100px;
+    border-radius: 1rem;
+    width: 7rem;
+    height: 2rem;
+    font-size: 1rem;
 }

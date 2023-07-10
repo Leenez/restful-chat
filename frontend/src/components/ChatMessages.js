@@ -26,16 +26,16 @@ const ChatMessages = (props) => {
 
         const interval = setInterval(() => {
             dispatch(getMsgs(request))
-        }, 5000)
+        }, 10000)
         return () => clearInterval(interval);
     },[])
 
     const tableItems = chatMessages.map((item, index) => 
-                        (<tr key={index}>
+                        (<tbody key={index}><tr>
                             <td className='time'>{item.date}</td>
                             <td className='user'>{item.user}</td>
                             <td className='msg'>{item.message}</td>
-                        </tr>))
+                        </tr></tbody>))
 
     return (
         <div className='message-window'>

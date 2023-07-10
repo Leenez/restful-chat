@@ -1,38 +1,52 @@
 .account-form {
     background-color: black;
-    border: 3px solid white;
+    border: 0.3rem solid white;
     text-align: center;
-    padding-bottom: 30px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
     
 }
 
+.inputs {
+    height: 2rem;
+    width: 15rem;
+    font-size: 2.5rem;
+}
+
+.welcome {
+    font-size: 3.5rem;;
+}
+
 .account-form-label {
     color:white;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 3rem;
 }
 
 h1 {
     color: white;
+    font-size: 2rem;
     text-decoration: underline;
 }
 
 .button-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin-top:5px;
-    grid-gap: 2px
+    margin-top:1rem;
+    grid-gap: 0.5rerm;
 }
 
 .account-form-button {
     background-color: lightgreen;
     border:none;
-    border-radius: 8px;
+    border-radius: 1rem;
+    width: 7rem;
+    height: 2rem;
+    font-size: 1rem;
 }
 
 

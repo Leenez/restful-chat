@@ -59,12 +59,11 @@ const AccountForm = (props) => {
 
     return (
         <form className='account-form'>
-			<h1>Welcome</h1>
+			<h1 className='welcome'>Welcome</h1>
 			<label className='account-form-label' htmlFor="username">Username</label><br/>
-			<input type="text" name="username" id="username" onChange={onChange} value={user.username}/><br/>
-			
+			<input className='inputs' type="text" name="username" id="username" onChange={onChange} value={user.username}/><br/>
             <label className='account-form-label' htmlFor="password">Password</label><br/>
-			<input type="password" name="password" id="password" onChange={onChange} value={user.password}/><br/>
+			<input className='inputs' type="password" name="password" id="password" onChange={onChange} value={user.password}/><br/>
 			<div className='button-container'>
 			<button className='login-button account-form-button' name="login" onClick={onSubmit}>Login</button>
             <button className='register-button account-form-button' name="register" onClick={onSubmit}>Register</button>	

@@ -1,16 +1,18 @@
 const express = require("express")
 const userLastSeenModel = require("../models/userlastseen");
 const messageModel = require("../models/message")
+const chatGpt = require ("../middleware/chatgpt")
 
 let router = express.Router()
 
 router.post("/msgs",async (req,res) => {
     try {
-        const currentDate = Date.now();
         let lastSeen = await userLastSeenModel.findOne({ "user" : req.body.user });
         lastSeen = lastSeen.lastseen;
-        await userLastSeenModel.updateOne({ "user": req.body.user }, { "lastseen": currentDate });
-        const messages = await messageModel.find({ "date" : { $gte : lastSeen } });
+        const messages = await messageModel.find({ "date" : { $gt : lastSeen } }).sort( { date: -1 });
+        if(messages.length > 0) {
+            await userLastSeenModel.updateOne({ "user": req.body.user }, { "lastseen": messages[0].date });
+        }
         return res.status(200).json(messages);
     } catch(err) {
         console.log(err)
@@ -18,18 +20,26 @@ router.post("/msgs",async (req,res) => {
     }
 })
 
-router.post("/msg", (req,res) => {
-    const currentDate = Date.now();
+router.post("/msg", async (req,res) => {
     try {
-        let message = new messageModel({
+        let tmpMessage = ""
+        if(req.body.chatGpt && req.body.chatGpt === true) {
+            tmpMessage = await chatGpt.askReply(req.body.message)
+            if (tmpMessage.Message && tmpMessage.Message === "ChatGPT error") {
+                return res.status(200).json(tmpMessage);
+            } 
+        } else {
+            tmpMessage = req.body.message
+        }
+        const currentDate = Date.now();
+        const message = new messageModel({
            "date":currentDate,
            "user":req.body.user,
-           "message":req.body.message
+           "message":tmpMessage
         })
-        message.save()
+        await message.save()
         return res.status(200).json({"Message":"Success"});
     } catch(err) {
-        console.log(err);
         return res.status(500).json({"Message":"Internal server error"});
     }
 })
