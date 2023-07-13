@@ -106,7 +106,9 @@ const chatSlice = createSlice({
         builder.addCase(getMsgs.fulfilled, (state, action) =>{
             showInfo(state, action)
             if(Object.keys(action.payload).length !== 0) {
-                state.chatMessages = state.chatMessages.concat(action.payload)
+                let tmpList = state.chatMessages.concat(action.payload)
+                tmpList = [...new Map(tmpList.map(msg => [JSON.stringify(msg), msg])).values()];
+                state.chatMessages = tmpList
             }
         })
     }

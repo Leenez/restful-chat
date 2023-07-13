@@ -6,6 +6,9 @@ const openai = new OpenAIApi(new Configuration({
     apiKey: api_key
 }))
 
+const ERR_MESSAGE = "ChatGPT error"
+const NO_REPLY = "ChatGPT didn't reply anything"
+
 const askReply = async (chatPost) => {
     try {
         const completion = await openai.createChatCompletion({
@@ -16,9 +19,13 @@ const askReply = async (chatPost) => {
             },],
         });
         const reply = completion.data.choices[0].message.content
-        return reply
+        if (reply && reply.length > 0) {         
+            return reply
+        } else {
+            return {"Message":NO_REPLY}
+        }        
     } catch(err) {
-        return {"Message":"ChatGPT error"}
+        return {"Message":ERR_MESSAGE}
     }
 }
 
